@@ -1,12 +1,16 @@
 import java.util.Scanner;
 
+/**
+ * @author Tom Wulf Tom.Wulf@uc.edu
+ */
 public class BlockingInput {
     public static void main(String[] args) {
 
         /**
-         * Design constraints for our SafeInput file of Static Methods
+         * Design constraints for our SafeInput file of Static Methods:
          *
          * All methods block and repeat until they get a valid input
+         *
          *
          * We pass in the Scanner - we will call that parameter pipe
          * We usually have a String prompt next
@@ -14,10 +18,26 @@ public class BlockingInput {
          * a RegEx String pattern to test the input against
          *  public static TYPE METHOD_NAME( Param list TYPE:ParamName
          *
+         *  Examples:
          *  public static String getNonZeroLengthString(Scanner pipe, String prompt)
          *
          *  public static int getInt(Scanner pipe, String prompt)
+         *  public static int getDouble(Scanner pipe, String prompt)
          *  public static int getRangedInt(Scanner pipe, String prompt, int low, int high)
+         *  public static double getRangedDouble(Scanner pipe, String prompt, double low, double high)
+         *  public static boolean getYNConfirm(Scanner pipe, String prompt)
+         *  public static String getRegExString(Scanner in, String prompt, String regEx)
+         *
+         *  public static String getPassWord(Scanner in, String prompt)
+         *  public static String getMinLenString(Scanner in, String prompt, int minLength)
+         *  public static String getRangedLenString(Scanner in, String prompt, int minLength, int maxLength)
+         *
+         *  public static double convertCtoF(double celsius)
+         *  public static double convertFtoC(double farenheit)
+         *
+         *  Once we have debugged all the methods, we will place them in a library file
+         *  called SafeInput.java and we can include that file in each IntelliJ project where we
+         *  want to use our methods. we call them like this: SafeInput.METHOD_NAME...
          */
 
 
@@ -27,19 +47,24 @@ public class BlockingInput {
         String userName = getNonZeroLengthString(in, "Enter you user name");
         System.out.println("\nYou said your name is: " + userName);
 
-        int ageAny = getint(in, "enter your age");
+        int ageAny = getInt(in, "Enter your age");
         System.out.println("\nYou said your age is: " + ageAny);
 
         int favNum = getRangedInt(in, "Enter your favorite number", 1,10);
         System.out.println("\nYou said your favorite number is: " + favNum);
-    }
 
-    /**
+
+
+
+    }  // End of main
+
+    // method definition go after main within the class
+
+    /**   // <= this is a special javadoc comment block.  You need one before each method to document it
      * Gets a String from the user that has to be at least one character or more
      *
      * @param pipe Scanner to use for input set to the console with System.in
      * @param prompt the prompt for the user the methods adds the ": " and uses System.print
-     *               ranged methods get a "..[low - high]: "
      * @return  After looping until the user enters something a non zero String...
      */
     public static String getNonZeroLengthString(Scanner pipe, String prompt)
@@ -49,6 +74,11 @@ public class BlockingInput {
         do{
             System.out.print("\n" + prompt + ": ");
             nonZeroLength = pipe.nextLine();
+
+            if(nonZeroLength.length() == 0)
+            {
+                System.out.println("\nYou must enter some characters!");
+            }
 
         }while (nonZeroLength.length() == 0 );
 
@@ -63,7 +93,7 @@ public class BlockingInput {
      * @param prompt User prompt
      * @return an int value provided by the user
      */
-    public static int getint(Scanner pipe, String prompt)
+    public static int getInt(Scanner pipe, String prompt)
     {
         int retValue = 0;
         String trash = "";
